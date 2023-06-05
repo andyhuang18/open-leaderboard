@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React, { useState, useEffect } from 'react';
-import { Layout, Image, ConfigProvider } from 'antd';
+import { Row, Col, Layout, Image, ConfigProvider } from 'antd';
 import 'antd/dist/antd.css';
 import Description from './Description';
 import MyFooter from './components/footer';
@@ -31,11 +31,8 @@ const getLastMonth = (lastUpdateTime) => {
 };
 
 const App = () => {
-  const NODE_ENV = process.env.NODE_ENV;
-  if (NODE_ENV !== 'development') {
-    console.log = function () {};
-  }
-  const [lastUpdateTime, setLastUpdateTime] = useState(null);
+  let [lastUpdateTime, setLastUpdateTime] = useState(null);
+  const CurrentDate = new Date();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -51,6 +48,9 @@ const App = () => {
     monthIndex = null;
   if (lastUpdateTime) {
     [year, monthIndex] = getLastMonth(lastUpdateTime);
+  }
+  if (CurrentDate.getDate() < 4) {
+    lastUpdateTime = null;
   }
 
   return (
